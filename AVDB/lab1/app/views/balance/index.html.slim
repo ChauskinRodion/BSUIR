@@ -1,0 +1,47 @@
+#balances.row data-ng-controller='BalanceController'
+  .col-lg-4
+    .panel.panel-info
+      .panel-heading
+        h3.panel-title Raw Data
+        button.btn.btn-danger.btn-xs ng-click="regenerateBalances()" Regenerate
+      .panel-body
+        table.table.table-bordered.table-condensed.table-hover
+          thead
+            tr
+              th #
+              th ng-click="changeSorting('price')" Price
+              th ng-click="changeSorting('buy_sell')" Action
+          tbody
+            tr data-ng-repeat="balance in balances | orderBy:sort.column:sort.descending" ng-class="balance.buy_sell?'success':''"
+              td = '{{$index + 1}}'
+              td = '{{balance.price}}'
+              td = "{{balance.buy_sell? 'Buy': 'Sell' }}"
+  .col-lg-8
+    .panel.panel-info
+      .panel-heading
+        h3.panel-title Prepared Data
+        button.btn.btn-success.btn-xs ng-click="saveAsBinary()" data-toggle='modal' data-target='#mail-modal' Send by e-mail
+      .panel-body
+        highchart#bar-Chart config='charts.barChart'
+        highchart#pie-Chart config='charts.pieChart'
+
+    #mail-modal.modal.fade tabindex='-1' role='dialog' aria-labelledby='mail-modal-Label' aria-hidden='true'
+      .modal-dialog.modal-lg
+        .modal-content
+          .modal-header
+            button.close data-dismisss='modal'
+              span aria-hidden='true' &times;
+              span.sr-only Close
+            h4#myModalLabel.modal-title Send Analyzed Data
+          .modal-body
+            .row
+              / TODO add form and send mail with images
+              img#bar-chart-binary.col-lg-6 src=''
+              img#pie-chart-binary.col-lg-6 src=''
+            
+
+
+          .modal-footer
+            button.btn.btn-default type="button"  data-dismiss="modal" Close
+            button.btn.btn-primary type="button" Save changes
+

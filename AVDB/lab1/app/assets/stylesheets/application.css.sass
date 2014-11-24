@@ -1,0 +1,24 @@
+@import "bootstrap-sprockets"
+@import "bootstrap"
+html
+  #home-page
+    background: #fff
+    #lab-selector
+      width: 400px
+      text-align: center
+      margin: 300px auto
+  .container
+    .row
+      padding-top: 10px
+      &#balances
+        .panel-title
+          display: inline-block
+        .btn-xs
+          float: right
+        table.table
+          th:not(:first-child)
+            cursor: pointer
+            &:hover
+              background: #d5d5d5
+        #pie-Chart
+          height: 270px

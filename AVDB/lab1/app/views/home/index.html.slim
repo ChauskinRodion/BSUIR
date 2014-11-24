@@ -1,0 +1,11 @@
+#home-page
+  #lab-selector
+    .panel.panel-default
+      .panel-heading
+        h3.panel-title Make your choice
+      .panel-body
+        .btn-group.btn-group-justified *{role: 'group'}
+          = link_to 'Lab 1', balance_index_path, class: 'btn btn-default'
+          = link_to 'Lab 2', '#', class: 'btn btn-default'
+          = link_to 'Lab 3', '#', class: 'btn btn-default'
+          = link_to 'Lab 4', '#', class: 'btn btn-default'
