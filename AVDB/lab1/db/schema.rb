@@ -11,11 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141123154502) do
+ActiveRecord::Schema.define(version: 20141130143056) do
 
   create_table "balances", force: true do |t|
     t.decimal  "price"
     t.boolean  "buy_sell"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "currencies", force: true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.integer  "nbrb_id"
+    t.boolean  "enabled",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "currency_rates", force: true do |t|
+    t.integer  "currency_id"
+    t.datetime "date"
+    t.decimal  "value",       precision: 8, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_mails", force: true do |t|
+    t.string   "recipient"
+    t.string   "sender"
+    t.text     "message"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

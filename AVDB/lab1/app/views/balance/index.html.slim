@@ -14,7 +14,7 @@
           tbody
             tr data-ng-repeat="balance in balances | orderBy:sort.column:sort.descending" ng-class="balance.buy_sell?'success':''"
               td = '{{$index + 1}}'
-              td = '{{balance.price}}'
+              td = '{{balance.price | currency}}'
               td = "{{balance.buy_sell? 'Buy': 'Sell' }}"
   .col-lg-8
     .panel.panel-info
@@ -34,14 +34,26 @@
               span.sr-only Close
             h4#myModalLabel.modal-title Send Analyzed Data
           .modal-body
-            .row
-              / TODO add form and send mail with images
-              img#bar-chart-binary.col-lg-6 src=''
-              img#pie-chart-binary.col-lg-6 src=''
-            
-
-
+            .col-lg-12
+              =form_tag '#', multipart: true, class: 'form-horizontal', role: "form"
+                .form-group
+                  =label_tag :recipient, 'Recipient',  class: 'col-sm-2 control-label'
+                  .col-sm-10
+                    =email_field_tag :recipient ,'', class: 'form-control', placeholder: 'Recipient email', 'ng-model' => 'mail.recipient'
+                .form-group
+                  =label_tag :sender, 'Sender',  class: 'col-sm-2 control-label'
+                  .col-sm-10
+                    =text_field_tag :sender,'', class: 'form-control', placeholder: 'Your name', 'ng-model' => 'mail.sender'
+                .form-group
+                  =label_tag :message, 'Message',  class: 'col-sm-2 control-label'
+                  .col-sm-10
+                    =text_area_tag :message,'', class: 'form-control', 'ng-model' => 'mail.message', placeholder: 'Hey, Bro! Look at this amazing numbers! I think it is a great indicators for us!'
+                .form-group
+                  =label_tag :attachments, 'Attachments',  class: 'col-sm-2 control-label'
+                  .col-sm-10
+                    =image_tag '', id:'pie-chart-binary', class: 'col-lg-6', 'ng-src' => "{{mail.attachments[0]}}"
+                    =image_tag '', id:'bar-chart-binary', class: 'col-lg-6', 'ng-src' => "{{mail.attachments[1]}}"
           .modal-footer
-            button.btn.btn-default type="button"  data-dismiss="modal" Close
-            button.btn.btn-primary type="button" Save changes
+            button.btn.btn-default type="button" data-dismiss="modal" Close
+            button.btn.btn-primary type="submit" ng-click='sendMail()' Send
 

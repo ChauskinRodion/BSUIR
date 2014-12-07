@@ -1,0 +1,89 @@
+.row ng-controller='CurrencyController' ng-init="init('#{DateTime.now - 1.day}')"
+  .col-lg-5
+    .panel.panel-info
+      .panel-heading
+        h3.panel-title Currency Courses
+        a.glyphicon.glyphicon-cog data-toggle='modal' data-target='#currency-list-modal'
+      .panel-body
+        table.table.table-bordered.table-condensed.table-hover
+          thead
+            tr
+              th.col-sm-1 #
+              th.col-sm-4 ng-click="changeSorting(mainTable, 'name')" Name
+              th.col-sm-4
+                p.input-group
+                  input.form-control.input-sm type="text" ng-change="loadCurrencies()" max-date="'#{DateTime.now}'" datepicker-popup='dd-MMM-yyyy' ng-model="rate_date" is-open="datepicker.opened" datepicker-options="datepicker.dateOptions" date-disabled="datepicker.disabled(date, mode)"
+                    span.input-group-btn
+                      button.btn.btn-default.input-sm type="button" ng-click="datepicker.open($event)"
+                        i.glyphicon.glyphicon-calendar
+              th.col-sm-2 ng-click="changeSorting(mainTable, 'last_rate')" Latest Course
+          tbody
+            tr data-ng-repeat="currency in currencies | orderBy:mainTable.sort.column:mainTable.sort.descending | filter: currency.enabled != false" ng-class="currency.selected?'success':''" ng-click="select_currency(currency)"
+              td = '{{$index + 1}}'
+              td = '{{currency.name}}'
+              td = '{{currency.date_rate}}'
+              td
+                div popover='{{currency.last_date |date}}'  popover-placement="top"  popover-trigger="mouseenter" = '{{currency.last_rate}}'
+  .col-lg-7
+    .panel.panel-info
+      .panel-heading
+        h3.panel-title Currency Exchange Chart
+      .panel-body
+        highchart config='currencyChart'
+    .panel.panel-info
+      .panel-heading
+        h3.panel-title Currency Exchange Tool
+      .panel-body
+        .row
+          .col-lg-6
+            .input-group
+              .input-group-btn
+                button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-expanded="false" {{currency_exchange.from.code}}
+                  <span class="caret"></span>
+                ul.dropdown-menu role="menu"
+                  li data-ng-repeat="currency in currencies  | filter: currency.enabled != false"
+                    a href="#" ng-click='currency_exchange.change_currency(currency,1)' {{currency.code}}
+              input.form-control type="text" ng-model='currency_exchange.from_value' ng-change='currency_exchange.convert()'
+          .col-lg-6
+            .input-group
+              input.form-control type="text" ng-model='currency_exchange.to_value' readonly='readonly'
+              .input-group-btn
+                button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-expanded="false" {{currency_exchange.to.code}}
+                  <span class="caret"></span>
+                ul.dropdown-menu role="menu"
+                  li data-ng-repeat="currency in currencies  | filter: currency.enabled != false"
+                    a href="#" ng-click='currency_exchange.change_currency(currency,0)' {{currency.code}}
+
+
+  #currency-list-modal.modal.fade tabindex='-1' role='dialog' aria-labelledby='mail-modal-Label' aria-hidden='true'
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close data-dismisss='modal'
+            span aria-hidden='true' &times;
+            span.sr-only Close
+          h4#myModalLabel.modal-title List of Available Currencies
+        .modal-body
+          .col-lg-12
+            .row
+              .input-group
+                span.input-group-addon Filter
+                input type="text" class="form-control" placeholder='Name' ng-model='listTable.filter.name'
+                input type="text" class="form-control" placeholder='Code' ng-model='listTable.filter.code'
+            .row.table-container
+              table.table.table-bordered.table-condensed.table-hover
+                thead
+                  tr
+                    td #
+                    th ng-click="changeSorting(listTable, 'name')" Name
+                    th ng-click="changeSorting(listTable, 'code')" Code
+                    th ng-click="changeSorting(listTable, 'enabled')" Enabled
+                tbody
+                  tr data-ng-repeat="currency in currencies | orderBy:listTable.sort.column:listTable.sort.descending| filter: listTable.filter"
+                    td = '{{$index + 1}}'
+                    td = '{{currency.name}}'
+                    td = '{{currency.code}}'
+                    td
+                      input type="checkbox" value='{{currency.name}}' ng-checked='{{currency.enabled}}' ng-click='enable_currency(currency)'
+        .modal-footer
+          button.btn.btn-default type="button" data-dismiss="modal" Close

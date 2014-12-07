@@ -1,15 +1,20 @@
+require 'sidekiq/web'
+
+
 Rails.application.routes.draw do
   # The priority is based upon order of creation: balance created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
+  mount Sidekiq::Web, at: '/sidekiq'
   # You can have the root of your site routed with "root"
    root 'home#index'
    get 'home/:index' => 'home#index'
 
    get 'balance/regenerate' => 'balance#regenerate'
+   post 'balance/send_email' => 'balance#send_email'
    resources :balance, only: [:show, :index]
 
-
+   get 'currency/get_history' => 'currency#get_history'
+   resources :currency
      # get 'balance/'=> 'balance#index' , as: 'first_lab'
      # get 'balance/get_balances'=> 'balance#get_balances'
      # get '*path' => redirect('/')

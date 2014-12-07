@@ -1,0 +1,8 @@
+h1 Hello, Man!
+h4 = "You receive this email from #{@params[:sender]}"
+br
+= @params[:message]
+br
+p Please check out mail attachments
+-@params[:attachments].each do |svg|
+  =image_tag "#{svg}"

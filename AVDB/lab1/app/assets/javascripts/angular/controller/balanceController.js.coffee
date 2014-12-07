@@ -1,4 +1,4 @@
-window.Application.controller 'BalanceController', ($scope, balanceFactory) ->
+window.Application.controller 'BalanceController', ($scope, $http, balanceFactory) ->
 
 #============ Sorting Table ============#
   $scope.sort = { column: '', descending: false  }
@@ -15,17 +15,20 @@ window.Application.controller 'BalanceController', ($scope, balanceFactory) ->
   balanceFactory.getBalances (data) ->
     processData data
 
+
   $scope.regenerateBalances =->
     balanceFactory.regenerateBalances (results) ->
       processData(results)
+
 
   processData = (results)->
     $scope.balances = results
     initializeBarChartSeries(results)
     initializePieChartSeries(results)
 
+
   initializePieChartSeries = (results)->
-    buy = results.filter (balance) -> balance.buy_sell   #TODO check why i need parseInt there
+    buy = results.filter (balance) -> balance.buy_sell
                   .map (balance) -> balance.price
                   .reduce (x, y) -> parseInt(x) + parseInt(y)
 
@@ -36,16 +39,14 @@ window.Application.controller 'BalanceController', ($scope, balanceFactory) ->
     $scope.charts.pieChart.series[0].data = [buy, sell]
 
 
-
   initializeBarChartSeries = (results) ->
     buyData = splitByGroups results.filter (balance) -> balance.buy_sell
     sellData = splitByGroups results.filter (balance) -> !balance.buy_sell
-
     console.log  buyData, sellData
 
     $scope.charts.barChart.series = [
-      { name: 'Buy', data: buyData}
-      { name: 'Sell', data: sellData}]
+      { name: 'Buy', color: '#7cb5ec', data: buyData}
+      { name: 'Sell', color: '#434348', data: sellData}]
 
 
   splitByGroups =(balances)->
@@ -95,27 +96,44 @@ window.Application.controller 'BalanceController', ($scope, balanceFactory) ->
         '(50-100) *100',
       ]
 
+
   $scope.charts.pieChart =
       chart:
         plotBackgroundColor: null,
-        plotBorderWidth: 1,#null,
+        plotBorderWidth: 1,
         plotShadow: true
       title:
         text: 'Need sleep Chart'
       series: [
-        type: 'pie',
-        name: 'Balance amount',
-        data:data = [ ['Buy', 45.0], ['Sell', 0] ]
+        type: 'pie'
+        name: 'Balance amount'
+        data:data = [ ['Buy', 1], ['Sell', 0] ]
       ]
 
   $scope.saveAsBinary =->
-    saveOneChart 'bar-Chart', '#bar-chart-binary'
-    saveOneChart 'pie-Chart', '#pie-chart-binary'
-    return true
+    saveOneChart 'bar-Chart'
+    saveOneChart 'pie-Chart'
 
-  saveOneChart = (chart_id, img_id)->
+  saveOneChart = (chart_id)->
     svg = document.getElementById(chart_id).children[0].innerHTML
-    base_image = new Image()
-    svg = "data:image/svg+xml,"+svg
-    base_image.src = svg
-    $(img_id).attr('src', svg)
+    svg = "data:image/svg+xml," + svg
+    $scope.mail.attachments.push(svg)
+
+  #============ Mail Section ============#
+  $scope.mail = {}
+  $scope.mail.attachments = []
+
+  $scope.sendMail =->
+    data = JSON.stringify($scope.mail)
+    $http.post('/balance/send_email', data)
+      .success (response)->
+        if response.success
+          alert 'mail successfuly created'
+          $('#mail-modal').modal('hide')
+        else
+          alert 'fail blah blah blah..'
+
+
+
+
+

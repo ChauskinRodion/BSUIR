@@ -19,5 +19,10 @@ module Lab1
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    config.eager_load_paths += ["#{config.root}/lib/workers"]
+    # config.autoload_paths +=  Dir["#{config.root}/lib/",
+    #                               "#{config.root}/app/models/**/**",
+    #                               "#{config.root}/app/workers"]
   end
 end

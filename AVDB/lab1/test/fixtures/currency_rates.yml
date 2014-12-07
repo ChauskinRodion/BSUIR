@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_id: 
+  to_id: 
+  date: 2014-11-30 17:30:56
+  value: 9.99
+
+two:
+  from_id: 
+  to_id: 
+  date: 2014-11-30 17:30:56
+  value: 9.99
