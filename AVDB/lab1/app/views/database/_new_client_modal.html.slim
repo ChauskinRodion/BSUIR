@@ -1,0 +1,68 @@
+#new-client-modal.modal.fade tabindex='-1' role='dialog' aria-labelledby='new-client-modal-Label' aria-hidden='true'
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button.close data-dismisss='modal'
+          span aria-hidden='true' &times;
+          span.sr-only Close
+        h4#myModalLabel.modal-title Add New Client
+      .modal-body
+        .col-lg-12 data-ng-init="client = {type: 'Person'}"
+          =form_tag '#',class: 'form-horizontal', role: "form"
+            .form-group
+              =label_tag :type, 'Type',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                label.radio-inline
+                  input type="radio" name="type" data-ng-model='client.type' value="Person"
+                    | Person
+                label.radio-inline
+                  input type="radio" name="type" data-ng-model='client.type' value="Company"
+                    | Company
+            .form-group
+              =label_tag :name, 'Name',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                =text_field_tag :name,'', class: 'form-control', placeholder: 'Name', 'ng-model' => 'client.name'
+
+            .form-group
+              =label_tag :address, 'Address',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                =text_field_tag :address,'', class: 'form-control', placeholder: 'Address', 'ng-model' => 'client.address'
+
+            .form-group ng-show="client.type == 'Person'"
+              =label_tag :document, 'Document',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                =text_field_tag :document,'', class: 'form-control', placeholder: 'Passport', 'ng-model' => 'client.passport'
+
+            .form-group ng-show="client.type == 'Person'"
+              =label_tag :sex, 'Sex',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                label.radio-inline data-ng-init="client.sex = 'male' "
+                  input type="radio" name="sex" data-ng-model='client.sex' value="male"
+                    | Male
+                label.radio-inline
+                  input type="radio" name="sex" data-ng-model='client.sex' value="female"
+                    | Female
+
+            .form-group
+              =label_tag :phone, 'Phone',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                =text_field_tag :phone,'', class: 'form-control', placeholder: 'Phone', 'ng-model' => 'client.phone'
+
+            .form-group ng-show="client.type == 'Person'"
+              =label_tag :document, 'Email',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                =text_field_tag :document,'', class: 'form-control', placeholder: 'Email', 'ng-model' => 'client.email'
+
+            .form-group ng-show="client.type == 'Person'"
+              =label_tag :document, 'Skype',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                =text_field_tag :document,'', class: 'form-control', placeholder: 'Skype', 'ng-model' => 'client.skype'
+
+            .form-group ng-show="client.type == 'Person'"
+              =label_tag :document, 'Alma mater',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                =text_field_tag :document,'', class: 'form-control', placeholder: 'University', 'ng-model' => 'client.almamater'
+
+      .modal-footer
+        button.btn.btn-default type="button" data-dismiss="modal" Close
+        button.btn.btn-primary type="submit" ng-click='create_client()' Create

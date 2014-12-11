@@ -1,0 +1,25 @@
+<%# show_filters: :when_filtered %>
+  <%= grid(@companies_grid) do |g|
+
+    g.column name: '', filter: false do |x|
+      check_box_tag '', x.id
+    end
+
+    g.column name:  'Name', attribute: 'name'
+
+    g.column  name:  'Address', attribute: 'address'
+
+    g.column  name:  'Phone', attribute: 'phone'
+
+    g.column name:  'Director', attribute: 'name', model: 'Person' do |company|
+      company.chief.name if company.chief
+    end
+
+    g.column name:  'Accountant', attribute: 'name', model: 'Person' do |company|
+      company.accountant.name if company.accountant
+    end
+
+    g.column name:  'Head Company', attribute: 'name', model: 'Company' do |company|
+      company.head_company.name if company.head_company
+    end
+  end -%>

@@ -1,0 +1,34 @@
+#mail-modal.modal.fade tabindex='-1' role='dialog' aria-labelledby='mail-modal-Label' aria-hidden='true'
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button.close data-dismisss='modal'
+          span aria-hidden='true' &times;
+          span.sr-only Close
+        h4#myModalLabel.modal-title Send Notification email
+      .modal-body
+        .col-lg-12
+          =form_tag '#',class: 'form-horizontal', role: "form"
+            .form-group
+              =label_tag :sender, 'Sender',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                =text_field_tag :sender,'', class: 'form-control', placeholder: 'Your name', 'ng-model' => 'mail.sender'
+            .form-group
+              =label_tag :message, 'Message',  class: 'col-sm-2 control-label'
+              .col-sm-10
+                =text_area_tag :message,'', class: 'form-control', 'ng-model' => 'mail.message', placeholder: 'Hey, Bro! Look at this amazing numbers! I think it is a great indicators for us!'
+          .alert.alert-info role="alert"
+            = 'Note, that HTML code enabled. You can simply use all html tags as you want( '
+            code &lt;b&gt;
+            = ', '
+            code &lt;em&gt;
+            = ', '
+            code &lt;&gt;
+            = ', '
+            code &lt;ul&gt;
+            = ', '
+            code &lt;li&gt;
+            | ...)
+      .modal-footer
+        button.btn.btn-default type="button" data-dismiss="modal" Close
+        button.btn.btn-primary type="submit" ng-click='sendMail()' Send

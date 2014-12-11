@@ -19,5 +19,6 @@
 //= require bootstrap-datepicker
 //= require highcharts
 //= require highcharts-ng
+//= require wice_grid
 
 //= require_tree .

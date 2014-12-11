@@ -11,11 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130143056) do
+ActiveRecord::Schema.define(version: 20141207225450) do
 
   create_table "balances", force: true do |t|
     t.decimal  "price"
     t.boolean  "buy_sell"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "companies", force: true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "phone"
+    t.integer  "chief_id"
+    t.integer  "accountant_id"
+    t.integer  "head_company_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -33,6 +44,22 @@ ActiveRecord::Schema.define(version: 20141130143056) do
     t.integer  "currency_id"
     t.datetime "date"
     t.decimal  "value",       precision: 8, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "people", force: true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "passport"
+    t.string   "phone"
+    t.string   "email"
+    t.string   "skype"
+    t.string   "almamater"
+    t.integer  "sex"
+    t.integer  "spouse_id"
+    t.integer  "mother_id"
+    t.integer  "father_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

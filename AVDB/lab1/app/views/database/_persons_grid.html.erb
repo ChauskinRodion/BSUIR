@@ -1,0 +1,36 @@
+
+  <%= grid(@persons_grid) do |g|
+
+    g.column name: '', filter: false do |x|
+      check_box_tag '', x.id
+    end
+
+    g.column name: 'Name', attribute: 'name'
+
+    g.column name: 'Address', attribute: 'address'
+
+    g.column  name: 'Document', attribute: 'passport'
+
+    g.column  name: 'Sex', attribute: 'sex'
+
+    g.column  name: 'Phone', attribute: 'phone'
+
+    g.column  name: 'Email', attribute: 'email'
+
+    g.column  name: 'Skype', attribute: 'skype'
+
+    g.column name: 'Alma Mater', attribute: 'almamater'
+
+    g.column name: 'Mother', attribute: 'name', class: 'Person' do |person|
+      person.mother.name if person.mother
+    end
+
+    g.column name: 'Father', attribute: 'name', class: 'Person' do |person|
+      person.father.name if person.father
+    end
+
+    g.column name: 'Spouse', attribute: 'name', class: 'Person' do |person|
+      person.spouse.name if person.spouse
+    end
+
+  end -%>

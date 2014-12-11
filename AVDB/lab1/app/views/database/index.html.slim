@@ -1,0 +1,27 @@
+.row ng-controller='DatabaseController'
+  #accordion.panel-group role='tablist' aria-multiselectable='true'
+    .panel.panel-default
+      #headingOne.panel-heading role='tab'
+        h4.panel-title
+          a data-toggle='collapse' data-parent='#accordion' href='#Person' aria-expanded='true' aria-controls='collapseOne'
+            | Persons
+        button.btn.btn-success.btn-xs ng-click="prepare_mail_model('Person')" data-toggle='modal' data-target='#mail-modal' Send E-mail
+        button.btn.btn-success.btn-xs data-toggle='modal' data-target='#new-client-modal' Add New Client
+      #Person.panel-collapse.collapse.in role='tabpanel' aria-labelledby='headingOne'
+        .panel-body
+          .span12
+            = render partial:  'persons_grid'
+    .panel.panel-default
+      #headingTwo.panel-heading role='tab'
+        h4.panel-title
+          a.collapsed data-toggle='collapse' data-parent='#accordion' href='#Company' aria-expanded='false' aria-controls='collapseTwo'
+            | Companies
+        button.btn.btn-success.btn-xs ng-click="prepare_mail_model('Company')" data-toggle='modal' data-target='#mail-modal' Send E-mail
+        button.btn.btn-success.btn-xs data-toggle='modal' data-target='#new-client-modal' Add New Client
+      #Company.panel-collapse.collapse role='tabpanel' aria-labelledby='headingTwo'
+        .panel-body
+          .span12
+            = render partial:  'companies_grid'
+
+  = render partial:  'mail_modal'
+  = render partial:  'new_client_modal'

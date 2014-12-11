@@ -15,6 +15,11 @@ Rails.application.routes.draw do
 
    get 'currency/get_history' => 'currency#get_history'
    resources :currency
+
+   resources :database
+   post 'database/send_email' => 'database#send_email'
+   post 'database/create_client' => 'database#create_client'
+
      # get 'balance/'=> 'balance#index' , as: 'first_lab'
      # get 'balance/get_balances'=> 'balance#get_balances'
      # get '*path' => redirect('/')
